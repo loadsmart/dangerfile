@@ -4,6 +4,9 @@ warn("PR is classed as Work in Progress 👷") if github.pr_title.include? "[WIP
 # Warn when there is a big PR
 warn("Big PR 🐘") if git.lines_of_code > 500
 
+# Warn if there's no description
+warn("Please, provide a description to your PR 📝") if github.pr_body.length < 20
+
 # - > +
 message("Good job on cleaning the code 👏") if git.deletions > git.insertions
 
