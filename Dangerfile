@@ -1,3 +1,7 @@
+has_app_changes = !git.modified_files.grep(@LS_APP_DIR).empty?
+has_test_changes = !git.modified_files.grep(@LS_TEST_DIR).empty?
+is_refactoring = github.pr_title.include?("refactor")
+
 ## Failures
 
 # Ensure a clean commits history
@@ -8,6 +12,11 @@ end
 # Only accept PRs to the develop branch
 if github.branch_for_base != "develop" && !github.pr_title.include?("hotfix")
   fail "Please re-submit this PR to develop 🚃"
+end
+
+# Add a CHANGELOG entry for app changes
+if !git.modified_files.include?("CHANGELOG.md") && has_app_changes && !is_refactoring
+  fail("Please include a [CHANGELOG.md](#{github.html_link('CHANGELOG.md')}) entry 📄")
 end
 
 ## Warnings
