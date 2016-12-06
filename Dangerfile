@@ -11,7 +11,7 @@ end
 
 # Only accept PRs to the develop branch
 if github.branch_for_base != "develop" && !github.pr_title.include?("hotfix")
-  fail "Please re-submit this PR to develop 🚃"
+  fail "Please re-submit this PR to the develop branch 🚃"
 end
 
 # Add a CHANGELOG entry for app changes
