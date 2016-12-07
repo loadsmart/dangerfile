@@ -9,11 +9,6 @@ if git.commits.any? { |c| c.message =~ /^Merge branch '#{github.branch_for_base}
   fail('Please rebase to get rid of the merge commits in this PR 💣')
 end
 
-# Only accept PRs to the develop branch
-if github.branch_for_base != "develop" && !github.pr_title.include?("hotfix")
-  fail "Please re-submit this PR to the develop branch 🚃"
-end
-
 # Add a CHANGELOG entry for app changes
 if !git.modified_files.include?("CHANGELOG.md") && has_app_changes && !is_refactoring
   fail("Please include a [CHANGELOG.md](#{github.html_link('CHANGELOG.md')}) entry 📄")
