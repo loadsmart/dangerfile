@@ -2,7 +2,7 @@ has_app_changes = !git.modified_files.grep(@LS_APP_DIR).empty?
 has_test_changes = !git.modified_files.grep(@LS_TEST_DIR).empty?
 is_refactoring = github.pr_title.include?("refactor")
 
-@CHANGELOG_FILE = "CHNAGELOG.md"
+@CHANGELOG_FILE = "CHANGELOG.md"
 
 begin
   g = Git.open "."
