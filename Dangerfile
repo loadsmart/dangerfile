@@ -1,6 +1,6 @@
 has_app_changes = !git.modified_files.grep(@LS_APP_DIR).empty?
 has_test_changes = !git.modified_files.grep(@LS_TEST_DIR).empty?
-is_refactoring = github.pr_title.include?("refactor")
+is_refactoring = github.pr_title.downcase.include?("refactor")
 
 @CHANGELOG_FILE = "CHANGELOG.md"
 
@@ -31,7 +31,7 @@ if has_app_changes && !has_test_changes && !is_refactoring
 end
 
 # Make it more obvious that a PR is a work in progress and shouldn't be merged yet
-warn("PR is classed as Work in Progress") if github.pr_title.include? "[WIP]"
+warn("PR is classed as Work in Progress") if github.pr_title.downcase.include? "[wip]"
 
 # Warn when there is a big PR
 warn("Big PR") if git.lines_of_code > 500
