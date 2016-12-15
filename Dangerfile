@@ -21,7 +21,7 @@ end
 
 # Add a CHANGELOG entry for app changes
 if has_changelog && has_app_changes && !is_refactoring && !git.modified_files.include?("CHANGELOG.md")
-    fail("Please include a #{github.html_link(@CHAMNGELOG_FILE)} entry")
+    fail("Please include a #{github.html_link(@CHANGELOG_FILE)} entry")
 end
 
 ## Warnings
