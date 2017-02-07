@@ -1,6 +1,6 @@
 has_app_changes = !git.modified_files.grep(@LS_APP_DIR).empty?
 has_test_changes = !git.modified_files.grep(@LS_TEST_DIR).empty?
-is_refactoring = github.pr_title.downcase.include?("refactor")
+is_test_exempt = ["[refactor]", "[chore]"].any? { |label| github.pr_title.downcase.include?(label) }
 
 @CHANGELOG_FILE = "CHANGELOG.md"
 
@@ -20,13 +20,13 @@ if git.commits.any? { |c| c.message =~ /^Merge branch '#{github.branch_for_base}
 end
 
 # Add a CHANGELOG entry for app changes
-if has_changelog && has_app_changes && !is_refactoring && !git.modified_files.include?("CHANGELOG.md")
+if has_changelog && has_app_changes && !is_test_exempt && !git.modified_files.include?("CHANGELOG.md")
     fail("Please include a #{github.html_link(@CHANGELOG_FILE)} entry")
 end
 
 ## Warnings
 
-if has_app_changes && !has_test_changes && !is_refactoring
+if has_app_changes && !has_test_changes && !is_test_exempt
   warn "Tests were not updated"
 end
 
