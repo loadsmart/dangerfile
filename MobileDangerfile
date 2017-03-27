@@ -6,33 +6,33 @@ if github.branch_for_base != "develop" && !github.pr_title.include?("hotfix")
 end
 
 if @LS_DANGER_REPORT_CIRCLE_CI_ARTIFACTS
-	username = ENV['CIRCLE_PROJECT_USERNAME']
-    project_name = ENV['CIRCLE_PROJECT_REPONAME']
-	build_number = ENV['CIRCLE_BUILD_NUM']
-	node_index = ENV['CIRCLE_NODE_INDEX']
-	should_display_message = username && project_name && build_number && node_index
-	if should_display_message
+  username = ENV['CIRCLE_PROJECT_USERNAME']
+  project_name = ENV['CIRCLE_PROJECT_REPONAME']
+  build_number = ENV['CIRCLE_BUILD_NUM']
+  node_index = ENV['CIRCLE_NODE_INDEX']
+  should_display_message = username && project_name && build_number && node_index
+  
+  if should_display_message
+    # build the path to where the circle CI artifacts will be uploaded to
+    circle_ci_artifact_path  = 'https://circleci.com/api/v1/project/'
+    circle_ci_artifact_path += username
+    circle_ci_artifact_path += '/'
+    circle_ci_artifact_path += project_name
+    circle_ci_artifact_path += '/'
+    circle_ci_artifact_path += build_number
+    circle_ci_artifact_path += '/artifacts/'
+    circle_ci_artifact_path += node_index
+    circle_ci_artifact_path += '/'
 
-		# build the path to where the circle CI artifacts will be uploaded to
-		circle_ci_artifact_path  = 'https://circleci.com/api/v1/project/'
-		circle_ci_artifact_path += username
-		circle_ci_artifact_path += '/'
-		circle_ci_artifact_path += project_name
-		circle_ci_artifact_path += '/'
-		circle_ci_artifact_path += build_number
-		circle_ci_artifact_path += '/artifacts/'
-		circle_ci_artifact_path += node_index
-		circle_ci_artifact_path += '/'
+    message_string = ''
+    @LS_DANGER_REPORT_CIRCLE_CI_ARTIFACTS.each do |artifact|
+      # create a markdown link that uses the message text and the artifact path
+      message_string += '['+artifact['message']+']'
+      message_string += '('+circle_ci_artifact_path+artifact['path']+')'
 
-		message_string = ''
-		@LS_DANGER_REPORT_CIRCLE_CI_ARTIFACTS.each do |artifact|
-			# create a markdown link that uses the message text and the artifact path
-			message_string += '['+artifact['message']+']'
-			message_string += '('+circle_ci_artifact_path+artifact['path']+')'
-
-			# if this isn't the last artifact then append the " & " string to make this one line
-			message(message_string)
-			message_string = ''
-		end
-	end
+      # if this isn't the last artifact then append the " & " string to make this one line
+      message(message_string)
+      message_string = ''
+    end
+  end
 end
