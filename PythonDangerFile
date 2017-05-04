@@ -1,4 +1,4 @@
 danger.import_dangerfile(github: "loadsmart/dangerfile", :path => "Dangerfile")
 
-# Don't let testing shortcuts get into master by accident
+# Don't let (i)pdb get into master
 fail("(i)pdb left in the code") if `find . -iname '*.py' | xargs grep -r "import [i]pdb"`.length > 1
