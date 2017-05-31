@@ -19,12 +19,12 @@ if git.commits.any? { |c| c.message =~ /^Merge branch '#{github.branch_for_base}
   fail('Please rebase to get rid of the merge commits in this PR')
 end
 
+## Warnings
+
 # Add a CHANGELOG entry for app changes
 if has_changelog && has_app_changes && !is_test_exempt && !git.modified_files.include?("CHANGELOG.md")
     warn("Please include a #{github.html_link(@CHANGELOG_FILE)} entry")
 end
-
-## Warnings
 
 if has_app_changes && !has_test_changes && !is_test_exempt
   warn "Tests were not updated"
