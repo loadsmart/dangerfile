@@ -1,0 +1,28 @@
+# Global Configurations
+
+@LS_DANGER_REPORT_CIRCLE_CI_ARTIFACTS = [
+  {
+  'message' => 'Test Report',
+  'path' => "#{ENV['CIRCLE_TEST_REPORTS']}/fastlane/test_output/report.html"
+  },
+  {
+  'message' => 'Code Coverage Report',
+  'path' => "#{ENV['CIRCLE_TEST_REPORTS']}/fastlane/xcov_output/index.html"
+  }
+]
+
+danger.import_dangerfile(github: "loadsmart/dangerfile", :path => "MobileDangerfile")
+
+
+# Local Configurations
+
+view_extensions = ['.xib', '.storyboard', 'View.swift', 'Button.swift']
+has_view_changes = git.modified_files.any? { |file| view_extensions.any? { |ext| file.end_with? ext }}
+pr_has_screenshot = github.pr_body =~ /https?:\/\/\S*\.(png|jpg|jpeg|gif){1}/
+warn("View files were changed. Maybe you want to add a screenshot to your PR.") if has_view_changes and !pr_has_screenshot
+
+
+# Plugins
+
+swiftlint.lint_files
+missed_localizable_strings.check_localizable_omissions
