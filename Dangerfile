@@ -1,6 +1,6 @@
 has_app_changes = !git.modified_files.grep(@LS_APP_DIR).empty?
 has_test_changes = !git.modified_files.grep(@LS_TEST_DIR).empty?
-is_test_exempt = ["[refactor]", "[chore]"].any? { |label| github.pr_title.downcase.include?(label) }
+is_test_exempt = ["[refactor]", "refactor:", "[chore]", "chore:"].any? { |label| github.pr_title.downcase.include?(label) }
 
 @CHANGELOG_FILE = "CHANGELOG.md"
 
