@@ -2,3 +2,12 @@ danger.import_dangerfile(github: "loadsmart/dangerfile", :path => "Dangerfile")
 
 # Don't let (i)pdb get into master
 fail("(i)pdb left in the code") if `find . -iname '*.py' | xargs grep -r "import [i]pdb"`.length > 1
+
+# Check if diff contains 'import *'
+python_files = (git.modified_files + git.added_files).select { |file| file.end_with? ".py" }
+python_files.each { |file|
+  diff = git.diff_for_file(file)
+  if diff && diff.patch =~ /^\+[\t \w\.]*[\t ]+import[\t ]\*/i
+    fail("Please avoid `import *` - explicit is better than implicit!")
+  end
+}
