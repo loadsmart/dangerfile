@@ -25,4 +25,4 @@ warn("View files were changed. Maybe you want to add a screenshot to your PR.") 
 # Plugins
 
 swiftlint.lint_files
-missed_localizable_strings.check_localizable_omissions
+
