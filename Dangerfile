@@ -37,7 +37,7 @@ warn("PR is classed as Work in Progress") if github.pr_title.downcase.include? "
 warn("Big PR") if git.lines_of_code > (@LS_MAXIMUM_LINES_OF_CODE || 500)
 
 # Warn if there's no description
-warn("Please, provide a description to your PR") if github.pr_body.length < 20
+warn("Please, provide a description to your PR") if github.pr_body.empty?
 
 ## Messages
 
