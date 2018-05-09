@@ -1,7 +1,7 @@
 danger.import_dangerfile(github: "loadsmart/dangerfile", :path => "Dangerfile")
 
 # Don't let (i)pdb get into master
-fail("(i)pdb left in the code") if `find . -iname '*.py' | xargs grep -r "import [i]pdb"`.length > 1
+fail("(i)pdb left in the code") if `find . -iname '*.py' -not -path '*/.venv/*' -not -path '*/node_modules/*' | xargs grep -r "import [i]pdb"`.length > 1
 
 # Check if diff contains 'import *'
 python_files = (git.modified_files + git.added_files).select { |file| file.end_with? ".py" }.reject { |file| file.include? "=>" }
