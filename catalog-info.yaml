@@ -1,0 +1,13 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: dangerfile
+  description: :warning: Loadsmart's global Dangerfile
+  annotations:
+    github.com/project-slug: loadsmart/dangerfile
+  tags:
+    - ruby
+spec:
+  type: other
+  lifecycle: production
+  owner: mobile
