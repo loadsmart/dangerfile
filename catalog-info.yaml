@@ -5,6 +5,7 @@ metadata:
   description: Loadsmart's global Dangerfile
   annotations:
     github.com/project-slug: loadsmart/dangerfile
+    opslevel.com/tier: tier_3
   tags:
     - ruby
 spec:
